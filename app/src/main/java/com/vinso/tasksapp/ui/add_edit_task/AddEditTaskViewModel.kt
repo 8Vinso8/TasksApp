@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vinso.tasksapp.data.Task
-import com.vinso.tasksapp.data.TaskRepository
+import com.vinso.tasksapp.data.task.Task
+import com.vinso.tasksapp.data.task.TaskRepository
 import com.vinso.tasksapp.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -69,6 +69,8 @@ class AddEditTaskViewModel @Inject constructor(
                             name = name,
                             description = description,
                             isDone = task?.isDone ?: false,
+                            isFavourite = task?.isFavourite ?: false,
+                            listId = task?.listId,
                             id = task?.id
                         )
                     )

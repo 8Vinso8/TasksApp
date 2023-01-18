@@ -3,8 +3,8 @@ package com.vinso.tasksapp.di
 import android.app.Application
 import androidx.room.Room
 import com.vinso.tasksapp.data.Database
-import com.vinso.tasksapp.data.TaskRepository
-import com.vinso.tasksapp.data.TaskRepositoryImpl
+import com.vinso.tasksapp.data.task.TaskRepository
+import com.vinso.tasksapp.data.task.TaskRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
