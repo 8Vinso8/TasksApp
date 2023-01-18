@@ -2,7 +2,7 @@ package com.vinso.tasksapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.vinso.tasksapp.data.TaskDatabase
+import com.vinso.tasksapp.data.Database
 import com.vinso.tasksapp.data.TaskRepository
 import com.vinso.tasksapp.data.TaskRepositoryImpl
 import dagger.Module
@@ -17,17 +17,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTaskDatabase(app: Application): TaskDatabase {
+    fun provideTaskDatabase(app: Application): Database {
         return Room.databaseBuilder(
             app,
-            TaskDatabase::class.java,
+            Database::class.java,
             "todo_db"
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideTaskRepository(db: TaskDatabase): TaskRepository {
+    fun provideTaskRepository(db: Database): TaskRepository {
         return TaskRepositoryImpl(db.dao)
     }
 }
