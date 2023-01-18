@@ -2,9 +2,12 @@ package com.vinso.tasksapp.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.vinso.tasksapp.data.list.TaskList
+import com.vinso.tasksapp.data.task.Task
+import com.vinso.tasksapp.data.task.TaskDao
 
 @Database(
-    entities = [Task::class],
+    entities = [Task::class, TaskList::class],
     version = 1
 )
 abstract class Database : RoomDatabase() {
