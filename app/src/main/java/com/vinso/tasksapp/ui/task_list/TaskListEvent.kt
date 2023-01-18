@@ -1,6 +1,6 @@
 package com.vinso.tasksapp.ui.task_list
 
-import com.vinso.tasksapp.data.Task
+import com.vinso.tasksapp.data.task.Task
 
 sealed class TaskListEvent {
     data class OnDeleteTaskClick(val task: Task) : TaskListEvent()
