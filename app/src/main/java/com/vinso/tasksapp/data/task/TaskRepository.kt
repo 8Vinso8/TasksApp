@@ -1,4 +1,4 @@
-package com.vinso.tasksapp.data
+package com.vinso.tasksapp.data.task
 
 import kotlinx.coroutines.flow.Flow
 
