@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vinso.tasksapp.data.Task
+import com.vinso.tasksapp.data.task.Task
 
 @Composable
 fun TaskItem(
@@ -67,7 +67,14 @@ fun TaskItem(
 fun TaskItemPreview() {
     val voidFun: (TaskListEvent) -> Unit = {}
     TaskItem(
-        task = Task("Preview title", "Preview description", false, 0),
+        task = Task(
+            name = "Preview title",
+            description = "Preview description",
+            isDone = false,
+            isFavourite = false,
+            isSubtask = false,
+            listId = null
+        ),
         onEvent = voidFun
     )
 }
