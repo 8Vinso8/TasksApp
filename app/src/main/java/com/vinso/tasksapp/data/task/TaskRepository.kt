@@ -10,4 +10,10 @@ interface TaskRepository {
     suspend fun getTaskById(id: Int): Task?
 
     fun getTasks(): Flow<List<Task>>
+
+    fun getFavouriteTasks(): Flow<List<Task>>
+
+    fun getDoneTasks(): Flow<List<Task>>
+
+    fun getUndoneTasks(): Flow<List<Task>>
 }

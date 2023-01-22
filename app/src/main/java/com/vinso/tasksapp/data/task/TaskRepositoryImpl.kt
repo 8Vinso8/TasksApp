@@ -20,4 +20,16 @@ class TaskRepositoryImpl(
     override fun getTasks(): Flow<List<Task>> {
         return dao.getTasks()
     }
+
+    override fun getFavouriteTasks(): Flow<List<Task>> {
+        return dao.getFavouriteTasks()
+    }
+
+    override fun getDoneTasks(): Flow<List<Task>> {
+        return dao.getDoneTasks()
+    }
+
+    override fun getUndoneTasks(): Flow<List<Task>> {
+        return dao.getUndoneTasks()
+    }
 }
