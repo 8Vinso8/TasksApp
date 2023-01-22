@@ -17,11 +17,11 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     fun getTasks(): Flow<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE isSub = 0")
-    fun getMainTasks(): Flow<List<Task>>
+    @Query("SELECT * FROM tasks WHERE isDone = 1")
+    fun getDoneTasks(): Flow<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE isSub = 1 AND mainId = :id")
-    fun getSubTasks(id: Int): Flow<List<Task>>
+    @Query("SELECT * FROM tasks WHERE isDone = 0")
+    fun getUndoneTasks(): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE isFavourite = 1")
     fun getFavouriteTasks(): Flow<List<Task>>
