@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.vinso.tasksapp.data.task.Task
 import com.vinso.tasksapp.util.UiEvent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -56,21 +57,38 @@ fun TaskListScreen(
             }
         }
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(tasks.value) { task ->
-                TaskItem(
-                    task = task,
-                    onEvent = viewModel::onEvent,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            viewModel.onEvent(TaskListEvent.OnTaskClick(task))
-                        }
-                        .padding(16.dp)
-                )
-            }
+        TaskList(
+            tasks = tasks.value,
+            onEvent = { event ->
+                viewModel.onEvent(event)
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        )
+    }
+}
+
+@Composable
+fun TaskList(
+    tasks: List<Task>,
+    onEvent: (TaskListEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(tasks) { task ->
+            TaskItem(
+                task = task,
+                onEvent = onEvent,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onEvent(TaskListEvent.OnTaskClick(task))
+                    }
+                    .padding(16.dp)
+            )
         }
     }
 }
