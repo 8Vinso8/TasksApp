@@ -70,7 +70,6 @@ class AddEditTaskViewModel @Inject constructor(
                             description = description,
                             isDone = task?.isDone ?: false,
                             isFavourite = task?.isFavourite ?: false,
-                            listId = task?.listId,
                             id = task?.id
                         )
                     )

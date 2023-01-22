@@ -72,8 +72,6 @@ fun TaskItemPreview() {
             description = "Preview description",
             isDone = false,
             isFavourite = false,
-            isSubtask = false,
-            listId = null
         ),
         onEvent = voidFun
     )
