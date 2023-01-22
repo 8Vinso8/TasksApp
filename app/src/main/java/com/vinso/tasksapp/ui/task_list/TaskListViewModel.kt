@@ -17,7 +17,7 @@ class TaskListViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
 
-    val tasks = repository.getTasks()
+    val allTasks = repository.getTasks()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()

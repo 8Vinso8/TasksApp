@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.vinso.tasksapp.data.task.Task
 import com.vinso.tasksapp.util.UiEvent
 
@@ -25,7 +26,7 @@ fun TaskListScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: TaskListViewModel = hiltViewModel()
 ) {
-    val tasks = viewModel.tasks.collectAsState(initial = emptyList())
+    val allTasks = viewModel.allTasks.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -58,10 +59,8 @@ fun TaskListScreen(
         }
     ) {
         TaskList(
-            tasks = tasks.value,
-            onEvent = { event ->
-                viewModel.onEvent(event)
-            },
+            tasks = allTasks.value,
+            onEvent = viewModel::onEvent,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
