@@ -17,9 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 import com.vinso.tasksapp.data.task.Task
 import com.vinso.tasksapp.util.UiEvent
 
+@OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TaskListScreen(
@@ -27,6 +30,9 @@ fun TaskListScreen(
     viewModel: TaskListViewModel = hiltViewModel()
 ) {
     val allTasks = viewModel.allTasks.collectAsState(initial = emptyList())
+    val favouriteTasks = viewModel.favouriteTasks.collectAsState(initial = emptyList())
+    val doneTasks = viewModel.doneTasks.collectAsState(initial = emptyList())
+    val undoneTasks = viewModel.undoneTasks.collectAsState(initial = emptyList())
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -58,13 +64,38 @@ fun TaskListScreen(
             }
         }
     ) {
-        TaskList(
-            tasks = allTasks.value,
-            onEvent = viewModel::onEvent,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        )
+        HorizontalPager(count = 4) {
+            when (it) {
+                0 -> TaskList(
+                    tasks = favouriteTasks.value,
+                    onEvent = viewModel::onEvent,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+                1 -> TaskList(
+                    tasks = undoneTasks.value,
+                    onEvent = viewModel::onEvent,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+                2 -> TaskList(
+                    tasks = doneTasks.value,
+                    onEvent = viewModel::onEvent,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+                3 -> TaskList(
+                    tasks = allTasks.value,
+                    onEvent = viewModel::onEvent,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+            }
+        }
     }
 }
 
