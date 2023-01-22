@@ -63,6 +63,15 @@ class TaskListViewModel @Inject constructor(
                     )
                 }
             }
+            is TaskListEvent.OnFavouriteChange -> {
+                viewModelScope.launch {
+                    repository.insertTask(
+                        event.task.copy(
+                            isFavourite = event.isFavourite
+                        )
+                    )
+                }
+            }
         }
     }
 
