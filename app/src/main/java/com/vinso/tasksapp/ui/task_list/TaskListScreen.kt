@@ -16,11 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import com.vinso.tasksapp.data.task.Task
 import com.vinso.tasksapp.util.UiEvent
+import androidx.compose.material.TopAppBar
 
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -33,6 +34,15 @@ fun TaskListScreen(
     val favouriteTasks = viewModel.favouriteTasks.collectAsState(initial = emptyList())
     val doneTasks = viewModel.doneTasks.collectAsState(initial = emptyList())
     val undoneTasks = viewModel.undoneTasks.collectAsState(initial = emptyList())
+
+    val pagerState = rememberPagerState()
+    val title: String = when (pagerState.currentPage) {
+        0 -> "Favourite"
+        1 -> "Not done"
+        2 -> "Done"
+        else -> "All"
+    }
+
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -53,6 +63,13 @@ fun TaskListScreen(
     }
     Scaffold(
         scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                title = { Text(text = title) },
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(TaskListEvent.OnAddTaskClick)
@@ -64,7 +81,11 @@ fun TaskListScreen(
             }
         }
     ) {
-        HorizontalPager(count = 4) {
+
+        HorizontalPager(
+            count = 4,
+            state = pagerState,
+        ) {
             when (it) {
                 0 -> TaskList(
                     tasks = favouriteTasks.value,
