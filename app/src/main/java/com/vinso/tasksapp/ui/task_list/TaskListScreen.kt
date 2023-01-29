@@ -41,12 +41,6 @@ fun TaskListScreen(
 
 
     val pagerState = rememberPagerState()
-    val title: String = when (pagerState.currentPage) {
-        0 -> "Favourite"
-        1 -> "Not done"
-        2 -> "Done"
-        else -> "All"
-    }
 
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
