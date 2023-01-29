@@ -53,12 +53,19 @@ fun TaskItem(
                 Text(text = it)
             }
         }
-        Checkbox(
-            checked = task.isDone,
-            onCheckedChange = { isChecked ->
-                onEvent(TaskListEvent.OnDoneChange(task, isChecked))
-            }
-        )
+        Column(
+            modifier = Modifier.weight(0.2f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Checkbox(
+                checked = task.isDone,
+                onCheckedChange = { isChecked ->
+                    onEvent(TaskListEvent.OnDoneChange(task, isChecked))
+                }
+            )
+            Checkbox(checked = task.isFavourite, onCheckedChange = { isChecked ->
+                onEvent(TaskListEvent.OnFavouriteChange(task, isChecked))})
+        }
     }
 }
 
@@ -72,8 +79,6 @@ fun TaskItemPreview() {
             description = "Preview description",
             isDone = false,
             isFavourite = false,
-            isSubtask = false,
-            listId = null
         ),
         onEvent = voidFun
     )

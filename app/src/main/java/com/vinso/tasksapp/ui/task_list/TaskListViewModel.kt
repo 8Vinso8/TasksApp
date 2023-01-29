@@ -17,7 +17,10 @@ class TaskListViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
 
-    val tasks = repository.getTasks()
+    val allTasks = repository.getTasks()
+    val favouriteTasks = repository.getFavouriteTasks()
+    val doneTasks = repository.getDoneTasks()
+    val undoneTasks = repository.getUndoneTasks()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -56,6 +59,15 @@ class TaskListViewModel @Inject constructor(
                     repository.insertTask(
                         event.task.copy(
                             isDone = event.isDone
+                        )
+                    )
+                }
+            }
+            is TaskListEvent.OnFavouriteChange -> {
+                viewModelScope.launch {
+                    repository.insertTask(
+                        event.task.copy(
+                            isFavourite = event.isFavourite
                         )
                     )
                 }

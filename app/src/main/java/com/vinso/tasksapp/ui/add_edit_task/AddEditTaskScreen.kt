@@ -2,12 +2,14 @@ package com.vinso.tasksapp.ui.add_edit_task
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vinso.tasksapp.util.UiEvent
@@ -36,8 +38,7 @@ fun AddEditTaskScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(AddEditTaskEvent.OnSaveTaskClick)
@@ -60,9 +61,14 @@ fun AddEditTaskScreen(
                 placeholder = {
                     Text(text = "Name")
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp, 5.dp),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             TextField(
                 value = viewModel.description,
                 onValueChange = {
@@ -71,7 +77,9 @@ fun AddEditTaskScreen(
                 placeholder = {
                     Text(text = "Description")
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 singleLine = false,
                 maxLines = 5
             )
