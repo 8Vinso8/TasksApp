@@ -70,22 +70,35 @@ fun TaskListScreen(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                title = { TabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = { tabPositions ->
-                        TabRowDefaults.Indicator(
-                            Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
-                        )
+                title = {
+                    TabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        indicator = { tabPositions ->
+                            TabRowDefaults.Indicator(
+                                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                            )
+                        }
+                    ) {
+                        listOf(
+                            "Favourite",
+                            "Not done",
+                            "Done",
+                            "All"
+                        ).forEachIndexed { index, title ->
+                            Tab(
+                                content = { Text(title) },
+                                selected = pagerState.currentPage == index,
+                                onClick = {
+                                    composableScope.launch {
+                                        pagerState.animateScrollToPage(
+                                            index
+                                        )
+                                    }
+                                }
+                            )
+                        }
                     }
-                ) {
-                    listOf<String>("Favourite", "Not done", "Done", "All").forEachIndexed { index, title ->
-                        Tab(
-                            content = { Text(title)},
-                            selected = pagerState.currentPage == index,
-                            onClick = {composableScope.launch { pagerState.animateScrollToPage(index) } }
-                        )
-                    }
-                } },
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             )
