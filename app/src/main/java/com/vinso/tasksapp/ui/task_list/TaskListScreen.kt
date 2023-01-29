@@ -13,15 +13,17 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.vinso.tasksapp.data.task.Task
 import com.vinso.tasksapp.util.UiEvent
-import androidx.compose.material.TopAppBar
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -34,6 +36,9 @@ fun TaskListScreen(
     val favouriteTasks = viewModel.favouriteTasks.collectAsState(initial = emptyList())
     val doneTasks = viewModel.doneTasks.collectAsState(initial = emptyList())
     val undoneTasks = viewModel.undoneTasks.collectAsState(initial = emptyList())
+
+    val composableScope = rememberCoroutineScope()
+
 
     val pagerState = rememberPagerState()
     val title: String = when (pagerState.currentPage) {
@@ -65,7 +70,22 @@ fun TaskListScreen(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                title = { Text(text = title) },
+                title = { TabRow(
+                    selectedTabIndex = pagerState.currentPage,
+                    indicator = { tabPositions ->
+                        TabRowDefaults.Indicator(
+                            Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                        )
+                    }
+                ) {
+                    listOf<String>("Favourite", "Not done", "Done", "All").forEachIndexed { index, title ->
+                        Tab(
+                            content = { Text(title)},
+                            selected = pagerState.currentPage == index,
+                            onClick = {composableScope.launch { pagerState.animateScrollToPage(index) } }
+                        )
+                    }
+                } },
                 modifier = Modifier
                     .fillMaxWidth()
             )
